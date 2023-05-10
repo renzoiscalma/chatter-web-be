@@ -4,17 +4,19 @@ import Redis, { RedisOptions } from "ioredis";
 export let pubsub: RedisPubSub;
 
 const startRedisServer = async () => {
-  const { REDIS_LOCAL_PORT, REDIS_LOCAL_DOMAIN } = process.env;
+  const { REDIS_DOMAIN, REDIS_PORT, REDIS_USER, REDIS_PW } = process.env;
+
   const options: RedisOptions = {
     retryStrategy: (times) => Math.min(times * 50, 2000),
+    username: REDIS_USER,
+    password: REDIS_PW,
+    port: Number(REDIS_PORT),
+    host: String(REDIS_DOMAIN),
   };
-  // TODO: Have null checker on local/prod servers
+
   pubsub = new RedisPubSub({
-    publisher: new Redis(
-      Number(REDIS_LOCAL_PORT),
-      String(REDIS_LOCAL_DOMAIN),
-      options
-    ),
+    publisher: new Redis(options),
+    subscriber: new Redis(options),
   });
 };
 
