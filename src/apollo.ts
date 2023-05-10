@@ -21,6 +21,8 @@ async function startApolloServer() {
 
   const serverCleanup = useServer({ schema }, wsServer);
 
+  const port = Number.parseInt(process.env.PORT as any) || 4000;
+
   const server = new ApolloServer({
     schema,
     csrfPrevention: true,
@@ -46,11 +48,9 @@ async function startApolloServer() {
     path: "/",
   });
 
-  await new Promise<void>((resolve) =>
-    httpServer.listen({ port: 4000 }, resolve)
-  );
+  await new Promise<void>((resolve) => httpServer.listen({ port }, resolve));
   console.log(`🚀  Server ready at ${process.env.LOCAL}`);
-  console.log(`🚀  WebSockets ready at ${process.env.LOCAL}/ws`);
+  console.log(`🚀  WebSockets ready at ${process.env.LOCAL}ws`);
 }
 
 export default startApolloServer;
