@@ -4,10 +4,10 @@ async function connectMongoose() {
   let uri = "";
 
   if (process.argv.includes("prod")) {
-    const { MONGO_USR_PROD, MONGO_PW_PROD, MONGO_PROD } = process.env; // TODO will depend on npm run
+    const { MONGO_USR_PROD, MONGO_PW_PROD, MONGO_PROD } = process.env;
     uri = `mongodb+srv://${MONGO_USR_PROD}:${MONGO_PW_PROD}@${MONGO_PROD}`;
   } else if ("local") {
-    const { MONGO_LOCAL, MONGO_DB_NAME } = process.env; // TODO will depend on npm run
+    const { MONGO_LOCAL, MONGO_DB_NAME } = process.env;
     uri = `mongodb://${MONGO_LOCAL}/${MONGO_DB_NAME}`;
   } else {
     console.log("no environment");
