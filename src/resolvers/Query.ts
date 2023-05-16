@@ -18,15 +18,17 @@ export const queryResolver = {
     ): Promise<GetMessageOnLobbyResponse> => {
       const res = await MessageCollection.find({
         to: new Types.ObjectId(args.lobbyId),
-      }).populate("from to");
-      return res.length
+      })
+        .populate("from to")
+        .catch(() => null);
+      return res !== null
         ? {
             code: 200,
             success: true,
             data: res,
           }
         : {
-            code: 404,
+            code: 500,
             success: false,
             data: [],
           };
